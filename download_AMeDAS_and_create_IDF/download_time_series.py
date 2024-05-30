@@ -1,7 +1,7 @@
 import time, sys, glob, os
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup  # new to install
 import numpy as np
 
 
