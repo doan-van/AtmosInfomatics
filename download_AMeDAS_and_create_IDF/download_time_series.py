@@ -111,7 +111,9 @@ vard =  {# kansho
              '合計_降雪_雪(cm)': 'snowfall-accum_cm',
              '値_最深積雪_雪(cm)': 'snowdepth-accum_cm',
              '天気概況_昼(06:00-18:00)': 'WeaCon-day6-18_x',
+             '天気概況_昼(08:30-17:00)': 'WeaCon-day830-17_x',
              '夜(18:00-翌日06:00)_天気概況': 'WeaCon-night18-n6_x',
+             '夜              _天気概況': 'WeaCon-night'
          }
     }
 
@@ -129,6 +131,8 @@ def download_amedas(point, date, opath, dtype='hourly'):
     amedas_file = 'Amedas_list.csv'
     
     alist = pd.read_csv(amedas_file, index_col=0)
+    #for a in alist[alist.station_id > 40000].iterrows():
+    #    print(a[1][ ['station_id', 'station_name'] ])
     
     pinf = alist.loc[alist['station_id'] == int(point)].to_dict(orient='records')[0]
     prec_no  = str(pinf['fuken_id'])
@@ -144,13 +148,15 @@ def download_amedas(point, date, opath, dtype='hourly'):
     contenturl = url +dtype+'_'+st_type+'1.php?prec_no='+prec_no+ \
            '&block_no='+block_no+ \
            '&year='+year+'&month='+month+'&day='+days[dtype]+'&view='
-
         
     try:
         response = requests.get(contenturl)
         
         soup = BeautifulSoup(response.content, "html.parser")
         table = soup.find('table', id='tablefix1') # Get table
+        
+        
+        
         if table != None:
             rows = table.findAll('tr')  # split to rows
             #-----Get header information---------
@@ -170,7 +176,7 @@ def download_amedas(point, date, opath, dtype='hourly'):
                     header1.append( { 'scol': scol, 'srow': srow, 'text': text })
                                    
                 header.append(header1)
-
+            
 
             header = [x for x in header if x ]
 
@@ -186,7 +192,7 @@ def download_amedas(point, date, opath, dtype='hourly'):
                         for ic in range(h1['scol']):
                             #print h1['text'], idb+ic+ir*nu_col
                             hd[idb + ic + ir*nu_col] = h1['text']
-
+            
             # merge rows of header
             hder = []
             nu_headrow = header[0][0]['srow']
@@ -208,12 +214,21 @@ def download_amedas(point, date, opath, dtype='hourly'):
             if dtype == 'daily':
                 index = [ pd.to_datetime( year + '-'+month+'-'+day) + pd.Timedelta( str(int(h)-1)+' day')  for h in do0.loc[:,'日'].values ]
                 do0 = do0.drop(['日'], axis=1)
-                
+            
             do0.index = index
             
-            #for co in do0.columns: print('\''+co+'\': \'\',')
-                
-            do0.columns = [ vard[dtype][c] for c in do0.columns]
+            # convert japanese name to english
+            new_columns = []
+            for c in do0.columns:
+                try: 
+                    new_c = vard[dtype][c]
+                except:
+                    print('something wrong with word conversion')
+                    new_c = 'xxx'
+                new_columns.append(new_c)
+            
+            do0.columns = new_columns # [ vard[dtype][c] for c in do0.columns]
+            
             #print('*****')
             #for co in do0.columns: print(co)
                 
@@ -308,8 +323,19 @@ if __name__ == "__main__":
             dat, link = download_amedas(point, date, opath, 'hourly' )
             time.sleep(0.2)
         
-        
+    # download each point for a given period
     if True:
+        
+        point = '47646' # Tsukuba station
+        point = '47662' # Tokyo
+    
+        date_range = pd.date_range('1980-04-01', '2020-12-31', freq='m')
+        for date in date_range:
+            dat, link = download_amedas(point, date, opath, 'daily' )
+            time.sleep(0.2)
+                
+                
+    if False:
         amedas_file = 'Amedas_list.csv'
         alist = pd.read_csv(amedas_file, index_col=0)   
         
