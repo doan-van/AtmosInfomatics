@@ -28,8 +28,14 @@ import numpy as np
 
 
 # %%
-files = sorted(glob.glob('0253808/4.4/data/0-data/Region-*-WMO-Normals-9120/*/CSV/*.csv'))
+
+
+
+# %%
+idir = '/Users/doan/MyDrive/share/2024/clim_class_data/' # google drive data (shared)
+files = sorted(glob.glob(idir + '0253808/4.4/data/0-data/Region-*-WMO-Normals-9120/*/CSV/*.csv'))
 print(len(files))
+odir0 = idir
 
 # %%
 # !open 0253808/4.4/data/0-data/Region-2-WMO-Normals-9120/Japan/CSV/Fukuoka_47807.csv
@@ -81,7 +87,7 @@ for iff, f in enumerate(files[:]):
             #do = do.loc[:, (slice(None), snu)].droplevel(level=[1,2,4], axis=1)
             for ic in range(do.shape[1]):
                 do.iloc[:,ic] = pd.to_numeric(do.iloc[:,ic],errors = 'coerce')
-            odir = 'data/'+reg+'/'+co+'/'
+            odir = odir0+'/data/'+reg+'/'+co+'/'
             if not os.path.exists(odir): os.makedirs(odir)
             ofile = odir + afile
             do.to_csv(ofile)
@@ -104,7 +110,7 @@ ds
 # ## step 2: extract to data_temp_prcp
 
 # %%
-ifiles = sorted(glob.glob('data/*/*/*.csv'))
+ifiles = sorted(glob.glob(idir+'/data/*/*/*.csv'))
 print(len(ifiles))
 
 # %%

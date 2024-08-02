@@ -36,12 +36,15 @@ import xarray as xr
 import numpy as np
 
 # %%
-# !ls 21789074/
-# !ls 21789074/climate_data_0p1/ 
+idir = '/Users/doan/MyDrive/share/2024/clim_class_data/' # google drive data (shared)
 
 # %%
-ifile = '21789074/climate_data_1p0/1991_2020/ensemble_mean_1p0.nc'
-ifile = '21789074/climate_data_0p1/1991_2020/ensemble_mean_0p1.nc'
+# !ls /Users/doan/MyDrive/share/2024/clim_class_data/21789074/
+# !ls /Users/doan/MyDrive/share/2024/clim_class_data/21789074/climate_data_0p1/ 
+
+# %%
+ifile = idir + '21789074/climate_data_1p0/1991_2020/ensemble_mean_1p0.nc'
+ifile = idir + '21789074/climate_data_0p1/1991_2020/ensemble_mean_0p1.nc'
 dc = xr.open_dataset(ifile)
 
 # %%
