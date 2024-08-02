@@ -1,0 +1,11 @@
+,country,place,station_id,latitude,longitude,altitude
+0,Algeria,Adrar,60620,27|50|14|N,000|11|37|W,279.230000
+1,Algeria,AinSefra,60560,32|45|07|N,000|35|38|W,1076.000000
+2,Algeria,AlgerDarElBeida,60390,36|41|24|N,003|13|00|E,25.000000
+3,Algeria,Annaba,60360,36|49|20|N,007|48|09|E,3.000000
+4,Algeria,BBArreridj,60444,36|04|03|N,004|47|40|E,955.000000
+5,Algeria,BBMokhtar,60686,21|22|34|N,000|55|55|E,395.000000
+6,Algeria,Batna,60468,35|45|39|N,006|19|11|E,821.290000
+7,Algeria,Bechar,60571,31|39|15|N,002|15|08|W,808.640000
+8,Algeria,BejaiaAeroport,60402,36|42|58|N,005|04|31|E,1.760000
+9,Algeria,BeniAbbes,60602,30|07|42|N,002|08|58|W,510.000000
