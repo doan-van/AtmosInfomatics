@@ -27,9 +27,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# %%
-
-
+# %% [markdown]
+# ## Data downloaded from NCEI
+#
+# https://www.ncei.noaa.gov/data/oceans/archive/arc0216/0253808/4.4/data/0-data/
+#
+#
+# Data have been downloaded and saved in Google Drive https://drive.google.com/drive/folders/1e2tRj7WXnycS_EXVbo9pGR6I-o2-V0NL?usp=sharing
 
 # %%
 idir = '/Users/doan/MyDrive/share/2024/clim_class_data/' # google drive data (shared)

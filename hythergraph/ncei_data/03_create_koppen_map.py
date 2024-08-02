@@ -24,6 +24,9 @@
 # Paper from Beck
 # https://www.nature.com/articles/sdata2018214
 #
+# Data have been downloaded and saved in Google Drive
+# https://drive.google.com/drive/folders/1e2tRj7WXnycS_EXVbo9pGR6I-o2-V0NL?usp=sharing
+#
 # Github for reference:
 # https://github.com/salvah22/koppenclassification
 #
@@ -34,6 +37,9 @@
 # %%
 import xarray as xr
 import numpy as np
+
+# %% [markdown]
+#
 
 # %%
 idir = '/Users/doan/MyDrive/share/2024/clim_class_data/' # google drive data (shared)
@@ -185,7 +191,7 @@ plt.show()
 #
 
 # %%
-dk = xr.open_dataset('21789074/koppen_geiger_nc/1991_2020/koppen_geiger_0p1.nc')
+dk = xr.open_dataset(idir+'21789074/koppen_geiger_nc/1991_2020/koppen_geiger_0p1.nc')
 kDict = {
     "Af": 1,"Am": 2,"Aw": 3, 
     "BWh": 4, "BWk": 5, "BSh": 6, "BSk": 7,
