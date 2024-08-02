@@ -17,7 +17,22 @@
 # ---
 
 # %% [markdown]
+# ## Data downloaded from NCEI
 #
+# https://catalog.data.gov/dataset/wmo-climatological-standard-normals-for-1991-2020-ncei-accession-0253808
+#
+# go to:
+#
+# https://www.ncei.noaa.gov/data/oceans/archive/arc0216/0253808/4.4/data/0-data/
+#
+# go to:
+#
+# https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:0253808
+#
+#
+# Data have been downloaded and saved in Google Drive
+#
+# https://drive.google.com/drive/folders/1e2tRj7WXnycS_EXVbo9pGR6I-o2-V0NL?usp=sharing
 
 # %%
 import sys, os, glob
@@ -26,14 +41,6 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 
-
-# %% [markdown]
-# ## Data downloaded from NCEI
-#
-# https://www.ncei.noaa.gov/data/oceans/archive/arc0216/0253808/4.4/data/0-data/
-#
-#
-# Data have been downloaded and saved in Google Drive https://drive.google.com/drive/folders/1e2tRj7WXnycS_EXVbo9pGR6I-o2-V0NL?usp=sharing
 
 # %%
 idir = '/Users/doan/MyDrive/share/2024/clim_class_data/' # google drive data (shared)
