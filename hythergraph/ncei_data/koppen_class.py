@@ -181,14 +181,14 @@ def plot_hythergraph( temperature,
     # plotting
     # Example monthly climate data
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    lab1, lab2, lab3 = 'Max Temperature (°C)', 'Min Temperature (°C)', 'Precipitation (mm)'
+    lab1, lab2, lab3 = 'Temperature (°C)', 'Min Temperature (°C)', 'Precipitation (mm)'
     tit1 = 'Hythergraph: Monthly Temperature and Precipitation\n'
     xlab, ylab1, ylab2 = 'Month', 'Temperature (°C)', 'Precipitation (mm)'
 
 
     # Create figure and axis
     fig = plt.figure(figsize= [6,4] )
-    ax1 = plt.axes( [.15,.2,.7,.7] )
+    ax1 = plt.axes( [.15,.2,.7,.65] )
 
     # Plot temperature data
     #ax1.plot(months, temperature_max, 'o--', color='darkred', label=lab1)
@@ -224,6 +224,7 @@ if __name__ == '__main__':
     #df = pd.read_csv('data_temp_prcp/Region-2/Japan/Tokyo_47662.csv', index_col=0)
     df = pd.read_csv(f, index_col=0)
     precip, temp = df.Precipitation.values, df.Temperature.values
+    
     if 0:
         precip = np.array([ 59.7,  56.5, 116. , 133.7, 139.7, 167.8, 156.2, 154.7, 224.9,
            234.8,  96.3,  57.9])
@@ -232,12 +233,13 @@ if __name__ == '__main__':
     
     fig = plot_hythergraph( temp,precip, title = f )
         
-    a = koppen_vd(precip, temp, False, True)
+    #a = koppen_vd(precip, temp, False, True)
     
-    print(a)
+    
+    a = koppen_vd(precip, temp, False)
     import pandas as pd
     kp = pd.read_excel('Koppen_class_list.xlsx', index_col=1)
-    print(kp.loc[a[0]])
+    print(kp.loc[a])
     
     
     

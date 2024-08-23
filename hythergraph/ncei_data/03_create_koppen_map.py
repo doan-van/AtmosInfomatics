@@ -49,7 +49,7 @@ idir = '/Users/doan/MyDrive/share/2024/clim_class_data/' # google drive data (sh
 # !ls /Users/doan/MyDrive/share/2024/clim_class_data/21789074/climate_data_0p1/ 
 
 # %%
-ifile = idir + '21789074/climate_data_1p0/1991_2020/ensemble_mean_1p0.nc'
+#ifile = idir + '21789074/climate_data_1p0/1991_2020/ensemble_mean_1p0.nc'
 ifile = idir + '21789074/climate_data_0p1/1991_2020/ensemble_mean_0p1.nc'
 dc = xr.open_dataset(ifile)
 
@@ -57,8 +57,8 @@ dc = xr.open_dataset(ifile)
 dc.air_temperature[0].plot()
 
 # %%
-t = dc.air_temperature # temperature
-p = dc.precipitation # precipitation
+t = dc.air_temperature    # temperature
+p = dc.precipitation      # precipitation
 lon, lat = np.meshgrid(dc.lon, dc.lat)
 s = xr.DataArray(lat < 0, dims = ['lat', 'lon'], coords = {'lat':dc.lat, 'lon':dc.lon})
 
@@ -94,6 +94,10 @@ def koppen_classification_along_latlon(a, b, c):
 
 # %% [markdown]
 # ### Use apply ufunc to parallelly calculating
+#
+# https://docs.xarray.dev/en/stable/generated/xarray.apply_ufunc.html
+#
+#
 
 # %%
 kpc = xr.apply_ufunc(koppen_classification_along_latlon, # this is the function defined above
@@ -165,7 +169,7 @@ fig, ax = plt.subplots(figsize=(10, 5), subplot_kw={'projection': ccrs.PlateCarr
 #ax.add_feature(cfeature.COASTLINE)
 #ax.add_feature(cfeature.BORDERS, linestyle=':')
 mesh = ax.pcolormesh(lon, lat, data, cmap=cmap, norm=norm, transform=ccrs.PlateCarree())
-ax.set_extent([70, 155, 0, 60], crs=ccrs.PlateCarree())
+#ax.set_extent([70, 155, 0, 60], crs=ccrs.PlateCarree())
 
 # Add gridlines
 ax.gridlines(draw_labels=True)

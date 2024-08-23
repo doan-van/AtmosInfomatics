@@ -49,7 +49,7 @@ print(len(files))
 odir0 = idir
 
 # %%
-# !open 0253808/4.4/data/0-data/Region-2-WMO-Normals-9120/Japan/CSV/Fukuoka_47807.csv
+# !open /Users/doan/MyDrive/share/2024/clim_class_data/0253808/4.4/data/0-data/Region-2-WMO-Normals-9120/Japan/CSV/Fukuoka_47807.csv
 
 # %%
 ss = []
@@ -238,7 +238,6 @@ do.to_csv('list_of_stations_2.csv')
 # ## Plot map with stations
 
 # %%
-len(dl)
 
 # %%
 import numpy as np
@@ -246,13 +245,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy
-df = do
+df = pd.read_csv('koppen.csv', index_col=[0,1,2])
+
 proj = ccrs.PlateCarree(central_longitude=150)
 plt.figure(figsize=(12, 8))
 ax = plt.axes(projection= proj )
 ax.set_extent([-90, 300, -65, 75], crs=ccrs.PlateCarree())
 ax.stock_img()
-for ig, g in enumerate(list(do.groupby(level=0))):
+
+for ig, g in enumerate(list(df.groupby(level=0))):
     dl = g[1] 
     lat, lon = dl['latitude'].values, dl['longitude'].values
     lon = np.where(lon<0, lon+360, lon)
@@ -262,7 +263,7 @@ for ig, g in enumerate(list(do.groupby(level=0))):
                lw = .1,
                label = dl.index[0][0] + ' ('+str(len(dl))+' sites)',
                transform=ccrs.Geodetic())
-plt.legend(ncols = 3, fontsize=10)
+plt.legend(ncols = 3, bbox_to_anchor=(0.5, -.2), loc = 'lower center', fontsize=10)
 plt.axis('off')
 plt.savefig('fig/world_stations.png', dpi = 150)
 

@@ -41,7 +41,7 @@ import pandas as pd
 
 # %%
 
-if 1: # if is just to easily comment out the processs 
+if 0: # if is just to easily comment out the processs 
     ds = xr.open_dataset('/Users/doan/Desktop/2023_2t_era5_land.nc')
     tb = ds.sel(longitude = slice(65,110), latitude = slice(50,15) )
     tb0 = tb.groupby('time.date').mean() 
@@ -69,7 +69,7 @@ if 1: # if is just to easily comment out the processs
 
 if 1:
     
-    ds = xr.open_dataset('data/tb.nc')['t2m']
+    ds = xr.open_dataset('data/tb.nc', engine='netcdf4')['t2m']
     print('shape of original data: ', ds.shape)
     
     # get "high-resolution data"
@@ -101,10 +101,41 @@ if 1:
     do.to_netcdf('data/tb_input.nc')
 
 # %%
-do
+do['lo'][0].plot()
 
 # %%
-    
+do['hi'][0].plot()
+
+# %% [markdown]
+# ## Divide data into three sets
+# - training
+# - validating
+# - testing
+#
+# Here random selection is used.
+#
+# 70% of data is used for training
+#
+# 60% of remaining 30% is used for validation
+#
+# 40% of remaining 30% is used for testing
+#
+# __there is no any rules how to divide, this is just a showcase__
+#
+# __data is then writen into three seperate files__
+#
+#
+# ### techniques used
+#
+# > random
+# > 
+# > numpy .setdiff1d
+# >
+# > numpy .unique
+# >
+# > numpy .union1d
+# >
+# > xarray .isel (different with .sel)
 
 
 # %%
@@ -183,3 +214,5 @@ dtest0.to_netcdf('data/tb_test.nc')
 
 
 
+
+# %%

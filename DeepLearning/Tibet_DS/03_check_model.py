@@ -101,6 +101,14 @@ X_test.shape
 
 
 # %%
+plt.imshow(X_test[0])
+
+# %%
+layx[43][0]
+
+plt.imshow( layx[43][0] )
+
+# %%
 
 
 for ilay in list(layx.keys())[1:2]:

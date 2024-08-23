@@ -10,16 +10,13 @@
 #       format_name: percent
 #       format_version: '1.3'
 #       jupytext_version: 1.16.2
+#   kernelspec:
+#     display_name: Python 3 (ipykernel)
+#     language: python
+#     name: python3
 # ---
 
 # %%
-"""
-Created on Tue Jul  2 14:25:16 2024
-
-@author: doan
-"""
-
-
 import numpy as np
 import xarray as xr
 import tensorflow as tf 
@@ -28,6 +25,7 @@ import cartopy
 import cartopy.crs as ccrs
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import os, glob, sys
 
 
 # %%
@@ -61,9 +59,6 @@ y_test = dtest['hi'].values
 
 # %%
 
-
-
-
 if 1: 
     # load model and run
     xmodel = tf.keras.models.load_model('tb_small') 
@@ -93,8 +88,10 @@ if 1:
     dv.coords['longitude'] = dval0.longitude
     dv['real'] = dval0['hi']
 
-    do.to_netcdf('prediction.nc')
-    dv.to_netcdf('validation.nc')
+    odir = 'output/'
+    if not os.path.exists(odir): os.makedirs(odir)
+    do.to_netcdf(odir+'prediction.nc')
+    dv.to_netcdf(odir+'validation.nc')
     do.close()
     dv.close()
     
@@ -106,7 +103,6 @@ if 1:
     #bias[0].plot()
     #print(bias.mean())   
 
-# +
     print(do)
     print(dv)
     
@@ -114,17 +110,8 @@ if 1:
     plt.show()
     do['pred'][0].plot()
 
-
-# +
-#dtest0['lo'][0].plot()
-import cartopy
-import cartopy.crs as ccrs
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-
-
-
-if 0:
+# %%
+if 1:
 
 
     lat, lon = do.latitude.values, do.longitude.values
@@ -134,13 +121,12 @@ if 0:
     
     
     lat2d, lon2d = np.meshgrid(lon, lat)
-    print( z.shape, lat2d.shape)
+
     
     fig = plt.figure(figsize=(8,8))
     
     level = np.arange(-20., 25., .5)
     levels = [ level,  np.linspace(-5, 5, 6), level, level ] 
-    
     
     
     for i in range(4):
@@ -170,3 +156,5 @@ if 0:
                 fontsize = 15, 
                 fontweight = 'bold',
                 transform = ax.transAxes)
+
+# %%

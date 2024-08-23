@@ -44,6 +44,7 @@ ds = pd.read_csv('list_of_stations_2.csv', index_col=[0,1,2]).sort_index()
 ds['koppen'] = ''
 
 # %%
+ds
 
 # %%
 from koppen_class import koppen_vd
@@ -52,39 +53,56 @@ ts, pr = [], []
 ds
 for iff, f in enumerate(ifiles[:]):
     if np.mod(iff, 1) == 0:
+        
         df = pd.read_csv(f, index_col=0)
-
+        #print(df)
         c0, c1, c2 = f.split('/')[1], f.split('/')[2], f.split('/')[-1][:-10]
         temp, precip = df['Temperature'].values, df['Precipitation'].values
-        
+        #print(c0, c1, c2)
         south = ds.loc[(c0, c1, c2), 'latitude'].values[0] < 0
+        #print(south)
         kop = koppen_vd(precip, temp, south=south) 
-
+        #print(kop)
         ds.loc[ (c0, c1, c2), 'koppen' ] = kop
         ts.append(temp)
         pr.append(precip)
         
 ts, pr = np.array(ts), np.array(pr)
-ds.to_csv('koppen.csv')
+ds.loc[:,'altitude'] = pd.to_numeric(ds.altitude, errors = 'coerce')
+ds.to_csv('koppen.csv', float_format='%.2f')
 
-# %%
 
 # %% [markdown]
 # # Plot hythergraph
 # ![image.png](attachment:1b8b4230-d64f-4953-884e-09906abd1942.png)
 
 # %%
-for iff, f in enumerate(ifiles[:0]):
+ds
+
+# %%
+
+ds = pd.read_csv('koppen.csv', index_col=[0,1,2])
+#import matplotlib as mpl
+#mpl.style.use('ggplot')
+from koppen_class import plot_hythergraph
+for iff, f in enumerate(ifiles[:]):
     if np.mod(iff, 1) == 0:
+        
         df = pd.read_csv(f, index_col=0)
         c0, c1, c2 = f.split('/')[1], f.split('/')[2], f.split('/')[-1][:-10]
         temp, precip = df['Temperature'].values, df['Precipitation'].values
-        fig = plot_hythergraph( temp, precip, c2+' (' +c1+')')
+        
+        r = ds.loc[(c0, c1, c2)]
+        lat, lon, kp = r['latitude'].values[0], r['longitude'].values[0], r['koppen'].values[0]
+        tit = c2+' (' +c1+')\nLat: '+'%.2f'%lat+', Lon: %.2f'%lon + '\nClimate zone: '+kp
+        
+        fig = plot_hythergraph( temp, precip, tit)
+        #plt.grid(False)
         odir = 'fig/'+c0+'/'+c1+'/'
         
         if not os.path.exists(odir): os.makedirs(odir)
         ofile = odir + c2+'.png'
-        plt.savefig(ofile, dpi = 100)        
+        plt.savefig(ofile, dpi = 150)        
         plt.close()
         
 
@@ -138,6 +156,7 @@ diction = {"Af": (150, 0, 0, 255),
            }
 
 # %%
+import cartopy.crs as ccrs
 
 # %%
 kp = pd.read_excel('Koppen_class_list.xlsx', index_col=1)
@@ -163,16 +182,17 @@ if 1:
         lon = np.where(lon<0, lon+360, lon)
         #col = np.array(diction[g[0]])/255.
         col = kp.loc[g[0], 'Color']
-        ax.scatter(lon, lat, s = 3, 
+        ax.scatter(lon, lat, s = 5, 
                    color = col,
                    edgecolor = 'k',
-                   lw = .1,
+                   lw = .2,
                    transform=ccrs.Geodetic())
         legend_handles.append(patches.Patch(color=col, label=g[0]) )
     
     plt.axis('off')
     
-    plt.legend(handles=legend_handles, loc='lower left', fontsize=7, ncols=10)
+    plt.legend(handles=legend_handles, bbox_to_anchor=(0.5, -.2),
+               loc='lower center', fontsize=7, ncols=10)
     plt.savefig('fig/koppen_world.png', dpi = 150)
 
 
@@ -239,3 +259,6 @@ labels = list(range(1,13))+[1]
 for i in range(len(x)):
     plt.text(x[i], y[i] + 1, labels[i], ha='center')
 
+
+# %%
+y
