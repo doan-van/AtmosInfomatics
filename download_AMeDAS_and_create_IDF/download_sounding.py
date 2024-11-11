@@ -127,7 +127,7 @@ def get_data_sonde(point, date, opath):
             dd.append(do)
 
         path = opath + '/'+point+'/' 
-        #print(path+year+'_'+month+'_'+day+".csv")
+        
         if not os.path.isdir(path): os.makedirs(path)
         
         if (table1 != None) and (table2 != None):
